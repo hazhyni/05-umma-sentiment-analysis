@@ -1,4 +1,4 @@
-# Analisis Sentimen Ulasan Aplikasi UMMA di Google Play Store
+# Analisis Sentimen Ulasan Aplikasi UMMA di Google Play Store (Fixing Bugs)
 
 Proyek ini bertujuan untuk melakukan analisis sentimen terhadap ulasan pengguna mengenai aplikasi "UMMA" yang tersedia di Google Play Store. Analisis sentimen dilakukan untuk memahami persepsi pengguna terhadap aplikasi, mengidentifikasi sentimen positif dan negatif yang paling sering diungkapkan, dan mendapatkan wawasan berharga bagi pengembang aplikasi.
 
