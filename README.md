@@ -1,38 +1,37 @@
 # 📝 Umma Prayer App Sentiment Analysis
 
-This project performs a sentiment analysis of Umma prayer app reviews collected from the Google Play Store. It uses a **Lexicon-Based** approach for sentiment labeling and then classifies reviews using various **Machine Learning** models, including Naive Bayes, Random Forest, Logistic Regression, and Decision Tree.
+This project performs a sentiment analysis of user reviews for the Umma prayer app, collected from the Google Play Store. The workflow involves extensive Indonesian text preprocessing, sentiment labeling using a **Lexicon-Based** approach, and classification using various **Machine Learning** models.
 
------
+The final classification demonstrated the **Logistic Regression** model achieving the highest test accuracy ($\approx 81\%$).
 
 ## 🎯 Key Features
 
-The project covers a complete text analysis pipeline, from data acquisition to model implementation:
+The project covers a complete Natural Language Processing (NLP) pipeline, from data acquisition to model implementation:
 
-1.  **Data Collection (Web Scraping):** Scrapes up to **1000** recent reviews for the Umma app (`com.muslim.android`) directly from the Google Play Store.
-2.  **Indonesian Text Preprocessing:**
-      * **Data Cleaning:** Removes duplicates, links, mentions, hashtags, numbers, and punctuation.
-      * **Case Folding & Slang Normalization:** Converts text to lowercase and normalizes Indonesian slang words (e.g., 'ga' to 'tidak', 'aja' to 'saja') using an external slang dictionary.
-      * **Stopword Removal:** Eliminates common words (stopwords) in both Indonesian and English.
-      * **Stemming (Sastrawi):** Reduces words to their root form (e.g., 'menggunakan' to 'guna').
-3.  **Sentiment Labeling (Lexicon-Based):** Applies an Indonesian sentiment lexicon dictionary to score and label reviews as **Positive, Negative,** or **Neutral**.
+1.  **Data Collection (Web Scraping):** Scrapes up to **1000** recent user reviews for the Umma app (`com.muslim.android`) directly from the Google Play Store using the `google-play-scraper` library.
+2.  **Robust Indonesian Text Preprocessing:**
+      * **Data Cleaning:** Handles duplicates, links, mentions, hashtags, numbers, and punctuation.
+      * **Slang Normalization:** Converts Indonesian slang words (e.g., 'ga' to 'tidak', 'aja' to 'saja') using an external slang dictionary.
+      * **Stopword Removal:** Eliminates common words in both Indonesian and English.
+      * **Stemming (Sastrawi):** Reduces Indonesian words to their root form (e.g., 'menggunakan' to 'guna').
+3.  **Sentiment Labeling:** Applies a custom Indonesian sentiment lexicon to automatically label reviews as **Positive, Negative,** or **Neutral**.
 4.  **Data Visualization:**
-      * Bar and pie charts to show the **distribution of sentiment polarity**.
-      * **Word Clouds** to visualize the most frequent words across Global, Positive, and Negative reviews.
-      * Visualization of the **Top 20 Words** based on TF-IDF values.
-5.  **Sentiment Classification (Machine Learning):**
+      * Distribution charts to visualize the **polarity of sentiment**.
+      * **Word Clouds** to show the most frequent words across Global, Positive, and Negative review sets.
+      * Bar plot of the **Top 20 Words** based on TF-IDF scores.
+5.  **Machine Learning Classification:**
       * Feature extraction using **TF-IDF Vectorization**.
-      * Implementation and evaluation of models: **Naive Bayes (BernoulliNB), Random Forest, Logistic Regression,** and **Decision Tree**.
-6.  **Model Testing:** The model with the highest test accuracy (**Logistic Regression** at approximately $\approx 81\%$) is selected for predicting the sentiment of new, unseen reviews.
+      * Comparative evaluation of four models: **Naive Bayes (BernoulliNB), Random Forest, Decision Tree,** and **Logistic Regression**.
 
 -----
 
 ## 🛠️ System Requirements & Installation
 
-To run this notebook, you need a Python environment. Use `pip` to install the necessary libraries.
+To run this analysis, you need a Python environment with the following libraries installed.
 
-### 📦 Libraries
+### 📦 Pustaka (Libraries)
 
-The following libraries must be installed. You can install them all at once:
+You can install all necessary packages using `pip`:
 
 ```bash
 !pip install google-play-scraper
@@ -42,28 +41,31 @@ The following libraries must be installed. You can install them all at once:
 !pip install pandas numpy matplotlib seaborn scikit-learn wordcloud requests
 ```
 
-Alternatively, if you have a `requirements.txt` file:
+### 🌍 External Data Dependencies
 
-```bash
-pip install -r requirements.txt
-```
-
-### 🌍 External Requirements
-
-  * **Internet Access:** Required for web scraping reviews from the Google Play Store, downloading NLTK resources, and loading the slang dictionary and sentiment lexicon from GitHub URLs.
-  * **Slang and Sentiment Lexicons:** The project automatically loads these resources from the GitHub URLs provided in the code (`slangdict.json`, `lexicon_positive.csv`, `lexicon_negative.csv`).
-  * **Google Drive (Optional):** Required if you intend to use the checkpoint feature to save the pre-processed data to Google Drive.
+  * **Internet Access:** Required for the initial data scraping and to load external resources.
+  * **External Dictionaries:** The project relies on the following files, which are automatically fetched from the provided GitHub URLs during runtime:
+      * Indonesian Slang Dictionary
+      * Positive Sentiment Lexicon (`lexicon_positive.csv`)
+      * Negative Sentiment Lexicon (`lexicon_negative.csv`)
 
 -----
 
-## 🚀 How to Run
+## 🚀 How to Run the Analysis
 
-1.  **Download or Clone** this repository (if available, or copy the code to your Google Collab/Jupyter environment).
-2.  **Open the `Umma_Prayer_App_Sentiment_Analysis.ipynb` file** in Jupyter Notebook or Google Colab.
-3.  **Run all code cells sequentially.** Make sure to:
-      * Run the installation cells (`!pip install...`) first.
-      * Run the library import and NLTK initialization cells (`nltk.download(...)`).
-4.  **Scraping Dataset:** The scraping code cell will fetch new reviews (up to 1000) from the Play Store.
-5.  **Preprocessing:** This process, especially **Stemming** and **Slang Normalization** using `swifter`, will take some time to complete.
-6.  **Labeling & Analysis:** Sentiment visualizations and model evaluations will appear in subsequent cells.
-7.  **Final Testing:** The last cell allows you to input a new sentence to test its sentiment using the trained **Logistic Regression** model.
+1.  **Clone or Download:** Get a copy of the `Umma_Prayer_App_Sentiment_Analysis.ipynb` file.
+2.  **Open:** Run the notebook in an environment like Google Colab or Jupyter Notebook.
+3.  **Execute Cells:** Run all code cells sequentially from top to bottom.
+      * The notebook will first install libraries and load the required dictionaries.
+      * The **Scraping Dataset** section will retrieve up to 1000 new reviews.
+      * The **Preprocessing** section, particularly Stemming and Slang Normalization, may take a few minutes to complete.
+      * The **Machine Learning Implementation** section will train and evaluate all models, confirming Logistic Regression as the best performer.
+4.  **Test New Input:** Use the final cell to test a new sentence, which will be processed and classified by the best-performing model (Logistic Regression).
+
+-----
+
+Now that we have the full documentation, we can dive into the **results** section of the project. We saw that **Logistic Regression** gave the highest test accuracy ($\approx 81\%$). Would you like to explore:
+
+1.  The surprising reason why **Logistic Regression** often outperforms more complex models like Random Forest on sparse text data?
+2.  How we could try to *improve* the accuracy, perhaps by tuning the TF-IDF parameters or using a different classification model?
+3.  Analyzing the specific **positive and negative keywords** that the Lexicon method identified?
