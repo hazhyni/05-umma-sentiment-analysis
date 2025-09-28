@@ -58,7 +58,7 @@ pip install -r requirements.txt
 
 ## 🚀 How to Run
 
-1.  **Download or Clone** this repository (if available, or copy the code to your Colab/Jupyter environment).
+1.  **Download or Clone** this repository (if available, or copy the code to your Google Collab/Jupyter environment).
 2.  **Open the `Umma_Prayer_App_Sentiment_Analysis.ipynb` file** in Jupyter Notebook or Google Colab.
 3.  **Run all code cells sequentially.** Make sure to:
       * Run the installation cells (`!pip install...`) first.
