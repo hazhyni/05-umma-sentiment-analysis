@@ -1,91 +1,69 @@
-# Analisis Sentimen Ulasan Aplikasi UMMA di Google Play Store
+Tentu, berikut adalah draf dokumentasi `README.md` yang mudah dimengerti, disesuaikan dengan isi *notebook* sentimen analisis aplikasi Umma:
 
-Proyek ini bertujuan untuk melakukan analisis sentimen terhadap ulasan pengguna mengenai aplikasi "UMMA" yang tersedia di Google Play Store. Analisis sentimen dilakukan untuk memahami persepsi pengguna terhadap aplikasi, mengidentifikasi sentimen positif dan negatif yang paling sering diungkapkan, dan mendapatkan wawasan berharga bagi pengembang aplikasi.
+# 📝 Dokumentasi: Umma Prayer App Sentiment Analysis
 
-## Dataset
+Proyek ini adalah analisis sentimen ulasan aplikasi doa Umma dari Google Play Store menggunakan pendekatan **Lexicon-Based** untuk pelabelan sentimen dan berbagai model **Machine Learning** (seperti Naive Bayes, Random Forest, Logistic Regression, dan Decision Tree) untuk klasifikasi otomatis.
 
-Dataset yang digunakan dalam proyek ini adalah ulasan pengguna yang diambil langsung dari Google Play Store menggunakan pustaka `google-play-scraper`. Ulasan diambil dari aplikasi dengan ID `com.muslim.android` (aplikasi UMMA).
+## 🎯 Fitur Utama
 
-## Metodologi
+Proyek ini mencakup alur kerja lengkap analisis teks, mulai dari pengumpulan data hingga implementasi model:
 
-Proyek ini mengikuti alur kerja analisis sentimen umum yang meliputi tahapan berikut:
+1.  **Pengumpulan Data (Web Scraping):** Mengambil hingga **1000** ulasan terbaru aplikasi Umma (`com.muslim.android`) langsung dari Google Play Store.
+2.  **Pra-pemrosesan Teks Bahasa Indonesia:**
+      * **Data Cleaning:** Menghapus duplikat, link, mention, hashtag, angka, dan tanda baca.
+      * **Case Folding & Normalisasi Slang:** Mengubah teks menjadi huruf kecil dan menormalkan kata-kata slang bahasa Indonesia (seperti 'ga' menjadi 'tidak', 'aja' menjadi 'saja') menggunakan kamus slang eksternal.
+      * **Stopword Removal:** Menghapus kata-kata umum (seperti 'dan', 'yang', 'di') dalam bahasa Indonesia dan Inggris.
+      * **Stemming (Sastrawi):** Mengubah kata berimbuhan menjadi kata dasar (misalnya 'menggunakan' menjadi 'guna').
+3.  **Pelabelan Sentimen (Lexicon-Based):** Menggunakan kamus leksikon sentimen berbahasa Indonesia untuk memberikan skor dan melabeli ulasan sebagai **Positif, Negatif,** atau **Netral**.
+4.  **Visualisasi Data:**
+      * Diagram batang dan lingkaran untuk menunjukkan **distribusi polaritas sentimen** ulasan.
+      * **Word Cloud** (Awan Kata) untuk memvisualisasikan kata-kata yang paling sering muncul di ulasan Global, Positif, dan Negatif.
+      * Visualisasi **Top 20 Kata** berdasarkan nilai TF-IDF.
+5.  **Klasifikasi Sentimen (Machine Learning):**
+      * Ekstraksi fitur menggunakan **TF-IDF Vectorization**.
+      * Implementasi dan evaluasi model: **Naive Bayes (BernoulliNB), Random Forest, Logistic Regression,** dan **Decision Tree**.
+6.  **Pengujian Model Terbaik:** Model dengan akurasi pengujian (test accuracy) tertinggi (**Logistic Regression** dengan akurasi $\approx 81\%$) dipilih untuk prediksi sentimen ulasan baru.
 
-1.  **Pengumpulan Data (Scraping):**
-    *   Menggunakan `google-play-scraper` untuk mengambil semua ulasan dari aplikasi UMMA.
-    *   Menyimpan ulasan yang diambil ke dalam file CSV.
+-----
 
-2.  **Pemrosesan Awal Data (Preprocessing):**
-    *   Memuat data ulasan dari file CSV ke dalam Pandas DataFrame.
-    *   Melakukan pembersihan data, termasuk menghapus baris dengan nilai yang hilang dan menghapus duplikat.
-    *   Menerapkan serangkaian fungsi pembersihan teks:
-        *   `cleaningText`: Menghapus mention, hashtag, RT, tautan, angka, dan tanda baca.
-        *   `casefoldingText`: Mengubah teks menjadi huruf kecil.
-        *   `fix_slangwords`: Mengganti kata-kata slang bahasa Indonesia dengan bentuk bakunya menggunakan kamus slang yang disediakan.
-        *   `tokenizingText`: Memecah teks menjadi kata-kata (token).
-        *   `filteringText`: Menghapus kata-kata umum (stopwords) dalam bahasa Indonesia dan Inggris.
-        *   `stemmingText` (Opsional): Mengembalikan kata-kata ke bentuk dasarnya menggunakan Sastrawi. *(Catatan: Pada kode yang disediakan, fungsi `stemmingText` didefinisikan tetapi tidak digunakan dalam pipeline preprocessing pada kolom `text_akhir`. Namun, Anda bisa menggunakannya jika diperlukan.)*
-        *   `toSentence`: Menggabungkan kembali token yang sudah difilter menjadi kalimat.
+## 🛠️ Persyaratan Sistem & Instalasi
 
-3.  **Pelabelan Sentimen:**
-    *   Menggunakan pendekatan berbasis leksikon (dictionary-based) untuk menentukan polaritas sentimen setiap ulasan.
-    *   Memuat kamus kata-kata positif (`lexicon_positive.csv`) dan negatif (`lexicon_negative.csv`) dari sumber eksternal.
-    *   Fungsi `sentiment_analysis_lexicon_indonesia` menghitung skor sentimen berdasarkan kemunculan kata-kata dari kamus positif dan negatif dalam teks ulasan yang sudah diproses.
-    *   Polaritas sentimen (`positive`, `negative`, `neutral`) ditentukan berdasarkan skor sentimen. Skor >= 0 dilabeli 'positive', dan skor < 0 dilabeli 'negative'.
+Untuk menjalankan *notebook* ini, Anda membutuhkan lingkungan Python. Gunakan `pip` untuk menginstal pustaka yang diperlukan.
 
-4.  **Analisis dan Visualisasi:**
-    *   Menampilkan distribusi polaritas sentimen (positif, negatif) dalam bentuk diagram lingkaran (pie chart).
-    *   Menampilkan ulasan-ulasan teratas dengan skor sentimen positif dan negatif tertinggi/terendah.
-    *   Membuat visualisasi *word cloud* dari kata-kata yang paling sering muncul dalam keseluruhan ulasan setelah preprocessing.
+### 📦 Pustaka (Libraries)
 
-## Persyaratan
+Pustaka-pustaka berikut harus diinstal. Anda dapat menginstal semuanya sekaligus:
 
-Untuk menjalankan kode ini, Anda memerlukan pustaka Python berikut:
+```bash
+!pip install google-play-scraper
+!pip install sastrawi
+!pip install nltk
+!pip install swifter
+!pip install pandas numpy matplotlib seaborn scikit-learn wordcloud requests
+```
 
-*   `google-play-scraper`
-*   `pandas`
-*   `numpy`
-*   `matplotlib`
-*   `seaborn`
-*   `datetime`
-*   `re`
-*   `string`
-*   `nltk` (dengan resource `punkt` dan `stopwords` diunduh)
-*   `Sastrawi`
-*   `wordcloud`
-*   `csv`
-*   `requests`
-*   `io`
+Atau, jika Anda memiliki file `requirements.txt`:
 
-Anda dapat menginstal pustaka-pustaka ini menggunakan pip:
-```pip install google-play-scraper pandas numpy matplotlib seaborn nltk Sastrawi wordcloud requests)```
+```bash
+pip install -r requirements.txt
+```
 
-Pastikan juga untuk mengunduh resource NLTK yang diperlukan:
-```python import nltk nltk.download('punkt') nltk.download('stopwords')```
+### 🌍 Kebutuhan Eksternal
 
-## Cara Menjalankan
+  * **Akses Internet:** Diperlukan untuk *web scraping* ulasan dari Google Play Store, mengunduh *resource* NLTK, dan memuat kamus slang serta leksikon sentimen dari GitHub.
+  * **Kamus Slang dan Leksikon Sentimen:** Proyek secara otomatis memuat *resource* ini dari *URL* GitHub yang disediakan dalam kode (`slangdict.json`, `lexicon_positive.csv`, `lexicon_negative.csv`).
+  * **Google Drive (Opsional):** Diperlukan jika Anda ingin menggunakan fitur *checkpoint* untuk menyimpan data pra-pemrosesan ke Google Drive.
 
-1.  Pastikan Anda memiliki Python terinstal.
-2.  Instal pustaka yang diperlukan seperti yang disebutkan di bagian "Persyaratan".
-3.  Unduh resource NLTK jika belum.
-4.  Jalankan skrip Python atau *notebook* Jupyter/Colab yang berisi kode proyek ini.
-5.  Data ulasan akan diambil dari Google Play Store, diproses, dan analisis sentimen akan dilakukan.
-6.  Hasil analisis sentimen, termasuk distribusi polaritas dan word cloud, akan ditampilkan.
+-----
 
-## File Proyek
+## 🚀 Cara Menjalankan
 
-*   Skrip Python atau *notebook* (`.py` atau `.ipynb`) yang berisi kode program.
-*   `ulasan_aplikasi.csv`: File CSV yang berisi ulasan yang diambil dari Google Play Store.
-*   *Lexicon files* (`lexicon_positive.csv` dan `lexicon_negative.csv`): Kamus kata-kata positif dan negatif yang digunakan untuk analisis sentimen. File-file ini diakses langsung dari URL GitHub dalam kode.
-
-## Hasil
-
-Hasil dari analisis sentimen ini akan menunjukkan:
-
-*   Jumlah total ulasan yang diambil.
-*   Jumlah ulasan setelah pembersihan (menghapus nilai kosong dan duplikat).
-*   Distribusi persentase ulasan positif dan negatif.
-*   Contoh ulasan dengan sentimen positif dan negatif yang kuat.
-*   Visualisasi kata-kata yang paling sering muncul dalam ulasan.
-
-Informasi ini dapat digunakan untuk memahami kekuatan dan kelemahan aplikasi UMMA berdasarkan masukan pengguna, serta memberikan panduan untuk perbaikan di masa mendatang.
-
+1.  **Unduh atau Clone** *repository* ini (jika ada, atau salin kode ke lingkungan Colab/Jupyter Anda).
+2.  **Buka file `Umma_Prayer_App_Sentiment_Analysis.ipynb`** di Jupyter Notebook atau Google Colab.
+3.  **Jalankan semua sel kode secara berurutan.** Pastikan untuk:
+      * Menjalankan sel instalasi (`!pip install...`) terlebih dahulu.
+      * Menjalankan sel impor pustaka dan inisialisasi NLTK (`nltk.download(...)`).
+4.  **Scraping Dataset:** Sel kode untuk *scraping* akan mengambil ulasan baru (hingga 1000 ulasan) dari Play Store.
+5.  **Preprocessing:** Proses ini, terutama **Stemming** dan **Slang Normalization** menggunakan `swifter`, akan memakan waktu.
+6.  **Pelabelan & Analisis:** Visualisasi sentimen dan evaluasi model akan muncul di sel-sel berikutnya.
+7.  **Pengujian Akhir:** Sel terakhir memungkinkan Anda memasukkan kalimat baru untuk diuji sentimennya menggunakan model **Logistic Regression** yang telah dilatih.
