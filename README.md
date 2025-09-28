@@ -1,6 +1,4 @@
-Tentu, berikut adalah draf dokumentasi `README.md` yang mudah dimengerti, disesuaikan dengan isi *notebook* sentimen analisis aplikasi Umma:
-
-# 📝 Dokumentasi: Umma Prayer App Sentiment Analysis
+# 📝 Umma Prayer App Sentiment Analysis
 
 Proyek ini adalah analisis sentimen ulasan aplikasi doa Umma dari Google Play Store menggunakan pendekatan **Lexicon-Based** untuk pelabelan sentimen dan berbagai model **Machine Learning** (seperti Naive Bayes, Random Forest, Logistic Regression, dan Decision Tree) untuk klasifikasi otomatis.
 
